@@ -1,16 +1,14 @@
-# Importing the required libraries
-import numpy as np
+import PySimpleGUI as sg
 import nltk
 import string
 import random
-import PySimpleGUI as sg
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
 # Importing and Reading the corpus(Data)
-f = open('chatbot.txt', 'r', errors='ignore')
-raw_doc = f.read()
-raw_doc = raw_doc.lower()
+with open('chatbot.txt', 'r', errors='ignore') as f:
+    raw_doc = f.read().lower()
+
 nltk.download('punkt')
 nltk.download('wordnet')
 sent_tokens = nltk.sent_tokenize(raw_doc)
@@ -33,7 +31,7 @@ def LemNormalize(text):
 
 # Defining the greeting function
 GREET_INPUTS = ("hello", "hi", "greetings", "sup", "what's up", "hey",)
-GREET_RESPONSES = ["Hi", "Hey", "*nods*", "Hi there", "Hello", "I am glad! You are talking to me"]
+GREET_RESPONSES = ["Hi", "Hey", "nods", "Hi there", "Hello", "I am glad! You are talking to me"]
 
 
 def greet(sentence):
@@ -63,43 +61,51 @@ def response(user_response):
 
 # PySimpleGUI layout with a placeholder
 layout = [
-    [sg.Text("ChatBot : My name is Star * . Let's have a conversation! Ask me anything about Machine Learning, I'm here to help you :)")],
-    [sg.Multiline(size=(100, 20), key='-OUTPUT-', disabled=True, background_color='lightgrey')],
-    [sg.InputText(key='-INPUT-', size=(60, 1), tooltip="Type your question here", font=('Helvetica', 12))],  # Added placeholder
-    [sg.Button('Send', button_color=('white', 'green'), size=(10, 1), border_width=2),
-     sg.Button('Exit', button_color=('white', 'red'), size=(10, 1), border_width=2)],
+    [sg.Text("ChatBot : My name is Star*. Let's have a conversation! Ask me anything about Machine Learning, I'm here to help you :)", font=('Helvetica', 14))],
+    [sg.Multiline(size=(100, 20), key='-OUTPUT-', disabled=True, background_color='lightgrey', font=('Helvetica', 12))],
+    [sg.InputText(key='Input1', size=(60, 1), tooltip="Type your question here", font=('Helvetica', 12), justification='left', enable_events=True)],
+    [sg.Button('Send', button_color=('white', 'green'), size=(10, 1), border_width=2), sg.Button('Exit', button_color=('white', 'red'), size=(10, 1), border_width=2)],
 ]
 
-# Create the window
-window = sg.Window('ChatBot', layout, resizable=True)
+window = sg.Window('Title', layout, finalize=True)
+window['Input1'].bind("<Return>", "_Enter")
 
-# Event loop
 while True:
     event, values = window.read()
-
     if event == sg.WIN_CLOSED or event == 'Exit':
         break
-    elif event == 'Send':
-        user_response = values['-INPUT-']
-        user_response = user_response.lower()
+    elif event == 'Send' or (event == 'Input1' + "_Enter" and values['Input1']):
+        user_response = values['Input1'].strip().lower()
+
+        # Display user's input in the output area with blue color
+        window['-OUTPUT-'].print(f"User : {user_response}", text_color='blue')
 
         if user_response != 'bye':
             if user_response == 'thanks' or user_response == 'thank you':
-                window['-OUTPUT-'].print("Star* : You're Welcome..")
+                # Display bot response in the output area with green color
+                window['-OUTPUT-'].print("Star* : You're Welcome..", text_color='green')
                 break
             else:
                 if greet(user_response) is not None:
-                    window['-OUTPUT-'].print(f"Star* : {greet(user_response)}")
+                    # Display bot response in the output area with green color
+                    window['-OUTPUT-'].print(f"Star* : {greet(user_response)}", text_color='green')
                 else:
                     sent_tokens.append(user_response)
-                    word_tokens = word_tokens + nltk.word_tokenize(user_response)
+                    word_tokens.extend(nltk.word_tokenize(user_response))
                     final_words = list(set(word_tokens))
                     response_text = response(user_response)
-                    window['-OUTPUT-'].print(f"Star * : {response_text}")
+                    # Display bot response in the output area with green color
+                    window['-OUTPUT-'].print(f"Star* : {response_text}", text_color='green')
                     sent_tokens.remove(user_response)
         else:
-            window['-OUTPUT-'].print("Star* : Goodbye! Take care <3")
+            # Display bot response in the output area with red color
+            window['-OUTPUT-'].print("Star* : Goodbye! Take care <3", text_color='red')
             break
+
+        # Clear the input box
+        window['Input1'].update('')
+        # Grab focus to clear the text when clicked
+        window['Input1'].Widget.focus_force()
 
 # Close the window
 window.close()
