@@ -1,74 +1,103 @@
-# 🤖 ChatBot : Star*
 
-A simple, rule-based chatbot built using Python, employing a TF-IDF approach for response generation and a PySimpleGUI-based user interface for seamless interaction.
+# 🤖 ChatBot: Star*
+
+A simple, rule-based chatbot built using Python, employing a **TF-IDF (Term Frequency–Inverse Document Frequency)** approach for response generation and a **PySimpleGUI**-based user interface for seamless interaction.
+
+---
+
+## 📜 Table of Contents
+- [Features](#-features)
+- [Libraries Used](#-libraries-used)
+- [How It Works](#-how-it-works)
+- [Installation](#-installation)
+- [Run the Project](#-run-the-project)
+
+---
+
+## 🎯 Features
+- Greets the user with random greetings.
+- Responds contextually based on text similarity with a predefined corpus.
+- Basic natural language understanding using **TF-IDF vectorization**.
+- Interactive GUI created with **PySimpleGUI**.
+- Clean, color-coded message layout.
+- Custom handling for 'bye', 'thanks', and greetings.
 
 ---
 
 ## 📚 Libraries Used
-
-- **NumPy (`numpy`)** — Numerical computations
-- **NLTK (`nltk`)** — Natural language processing and lemmatization
-- **String (`string`)** — String manipulation
-- **Random (`random`)** — Generating random values
-- **PySimpleGUI (`PySimpleGUI`)** — Simple GUI framework for Python
-- **scikit-learn (`sklearn`)**
-  - `TfidfVectorizer` — Converts text to numerical vectors
-  - `cosine_similarity` — Calculates similarity between text inputs
-
----
-
-## 📖 How It Works
-
-### 1️⃣ Reading the Corpus
-- Loads text data from `chatbot.txt`  
-- Text corpus serves as the knowledge base for generating responses  
-
-### 2️⃣ Text Preprocessing
-- Converts all text to lowercase for consistency  
-- Performs tokenization:
-  - `sent_tokenize()` — Splits text into sentences
-  - `word_tokenize()` — Splits sentences into words  
-
-### 3️⃣ Text Normalization
-- Uses **NLTK Lemmatizer** to reduce words to their base form
-
-### 4️⃣ Greeting Detection
-- Detects if user input contains a greeting (like *hello*, *hi*, *hey*)  
-- Replies with a random greeting from a predefined list
-
-### 5️⃣ Response Generation
-- Converts both user input and existing corpus into **TF-IDF vectors**
-- Computes **cosine similarity** between the user input and corpus sentences  
-- Responds with the most similar sentence  
-
-### 6️⃣ GUI Layout
-- Designed using **PySimpleGUI**
-- Components:
-  - Multiline output area for conversation history
-  - Text input box for user messages
-  - “Send” and “Exit” buttons  
-
-### 7️⃣ Event Loop
-- Waits for user input  
-- Responds based on input (greeting, response generation, or goodbye)
-- Closes on “bye” or Exit button  
+- **NumPy** — Numerical computations.
+- **NLTK** — Tokenization, lemmatization, and text processing.
+- **String** — String manipulation utilities.
+- **Random** — Random selection for responses.
+- **Scikit-learn**  
+  - `TfidfVectorizer` — Converts text to numerical vectors.
+  - `cosine_similarity` — Measures similarity between text vectors.
+- **PySimpleGUI** — Lightweight and intuitive GUI framework for Python.
 
 ---
 
-## 📊 Algorithm Summary
+## 🔍 How It Works
 
-| Concept             | Description                                                                 |
-|:-------------------|:----------------------------------------------------------------------------|
-| **Approach**        | Rule-based chatbot using **TF-IDF** and **cosine similarity**                |
-| **Response Logic**  | Compares user input to a text corpus and finds the closest match             |
-| **NLU Level**       | Basic — understands greetings and responds contextually to user inputs       |
-| **User Interface**  | Created with **PySimpleGUI** for an interactive conversational experience    |
+1. **Load Corpus**
+   - Reads text data from `chatbot.txt`, which acts as the knowledge base.
+
+2. **Text Preprocessing**
+   - Lowercases text.
+   - Tokenizes into sentences and words.
+   - Removes punctuation.
+   - Lemmatizes words to their root form.
+
+3. **Greeting Detection**
+   - Recognizes if user input contains a greeting.
+   - Responds with a random greeting from a predefined list.
+
+4. **Response Generation**
+   - Converts user input and corpus sentences into TF-IDF vectors.
+   - Computes cosine similarity to find the most relevant response.
+   - Returns the sentence with the highest similarity or a fallback if no match found.
+
+5. **Graphical Interface**
+   - Built using **PySimpleGUI**.
+   - Components:
+     - Multiline output display.
+     - Input text box for user messages.
+     - “Send” and “Exit” buttons.
+
+6. **Event Loop**
+   - Waits for user input.
+   - Processes input and displays appropriate chatbot response.
+   - Closes chat on "bye" or by clicking "Exit".
 
 ---
 
+## 🛠️ Installation
 
-## 📝 How to Run
-
-1. Install required libraries:
+1. **Clone the repository**
    ```bash
-   pip install numpy nltk PySimpleGUI scikit-learn
+   git clone https://github.com/yourusername/your-repo-name.git
+   cd your-repo-name
+````
+
+2. **Install required libraries**
+
+   ```bash
+   pip install numpy nltk scikit-learn PySimpleGUI
+   ```
+
+3. **Download NLTK data (one-time setup)**
+
+   ```python
+   import nltk
+   nltk.download('punkt')
+   nltk.download('wordnet')
+   ```
+
+---
+
+## ▶️ Run the Project
+
+```bash
+python chatbot.py
+```
+
+
