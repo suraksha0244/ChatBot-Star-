@@ -70,34 +70,5 @@ A simple, rule-based chatbot built using Python, employing a **TF-IDF (Term Freq
 
 ---
 
-## 🛠️ Installation
-
-1. **Clone the repository**
-
-   git clone https://github.com/yourusername/your-repo-name.git
-   cd your-repo-name
-
-
-2. **Install required libraries**
-
-   
-   pip install numpy nltk scikit-learn PySimpleGUI
-  
-
-3. **Download NLTK data (one-time setup)**
-
-   
-   import nltk
-nltk.download('punkt')
-nltk.download('wordnet')
-
-
----
-
-## ▶️ Run the Project
-
-```bash
-python chatbot.py
-```
 
 
