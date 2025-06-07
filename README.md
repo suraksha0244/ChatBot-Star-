@@ -88,8 +88,8 @@ A simple, rule-based chatbot built using Python, employing a **TF-IDF (Term Freq
 
    
    import nltk
-   nltk.download('punkt')
-   nltk.download('wordnet')
+nltk.download('punkt')
+nltk.download('wordnet')
 
 
 ---
